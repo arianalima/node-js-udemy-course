@@ -1,9 +1,5 @@
 const geocode = require('./utils/geocode.js');
 const forecast = require('./utils/weather.js');
-const fs = require('fs');
-
-const dataJSON = fs.readFileSync('./utils/access_keys.json').toString();
-const access_keys = JSON.parse(dataJSON);
 
 geocode('recife', (error, data) => {
 	console.log('Error', error);
