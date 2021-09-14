@@ -10,11 +10,10 @@ const geocode = (address, callback) => {
 		encodeURIComponent(address) +
 		'.json?access_token=' + access_keys.mapbox +
 		'&limit=1';
-	request({ url: url, json: true }, (error, response) => {
+	request({ url, json: true }, (error, { body:content }) => {
 		if (error) {
 			callback('Unable to connect to mapbox service');
 		} else {
-			const content = response.body;
 			if (content.features.length === 0) {
 				callback('Unable to find geolocation. Try to search a different term.');
 			} else {

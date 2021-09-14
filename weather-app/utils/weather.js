@@ -10,14 +10,14 @@ const forecast = (latitude, longitude, callback) => {
 		access_keys.weatherstack +
 		'&query=' +	latitude +	',' + longitude;
 
-        request({ url: url, json: true }, (error, response) => {
+        request({ url, json: true }, (error, { body }) => {
             if (error) {
                 callback('Unable to connect to weather service');
-            } else if (response.body.error) {
-                console.log(response.body.error)
+            } else if (body.error) {
+                console.log(body.error)
                 callback('Unable to find location');
             } else {
-                const current = response.body.current;
+                const current = body.current;
                 callback(undefined, 
                     "It's " + current.temperature + ' degrees out. It feels like ' + current.feelslike + ' degrees out.'
                 );
