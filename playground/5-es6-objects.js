@@ -20,8 +20,8 @@ const product = {
 const { label: l, stock, rating = 5 } = product;
 console.log(l);
 
-const transaction = (type, { label, stock }) => {
-	console.log(type, label);
+const transaction = (type, { label, stock = 0 } = {}) => {
+	console.log(type, label, stock);
 };
 
 transaction('order', product);
