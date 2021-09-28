@@ -12,3 +12,17 @@ Task.findByIdAndRemove('614b642c1aeec27addb3ced1')
 	.catch((e) => {
 		console.log(e);
 	});
+
+const deleteAndCount = async (id) => {
+	await Task.findOneAndDelete(id);
+	const count = await Task.countDocuments({ completed: false });
+	return count;
+};
+
+deleteAndCount('614b642c1aeec27addb3ced1')
+	.then((count) => {
+		console.log(count);
+	})
+	.catch((e) => {
+		console.log(e);
+	});
