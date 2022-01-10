@@ -14,3 +14,14 @@ app.listen(port, () => {
 	console.log('running');
 });
 
+const jwt = require('jsonwebtoken')
+
+const myFunction = async () => {
+	const token = jwt.sign({ _id: 'dummy' }, 'dummy2', { expiresIn: '7 days' });
+	console.log(token);
+
+	const data  = jwt.verify(token, 'dummy2');
+	console.log(data);
+}
+
+myFunction();
