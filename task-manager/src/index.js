@@ -1,22 +1,22 @@
 const express = require('express');
-require('./db/mongoose.js');
+require('./db/mongoose');
 const userRouter = require('./routers/user');
 const taskRouter = require('./routers/task');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use((req, res, next) => {
-	if (req.method === 'GET') {
-		res.send('GET requests disabled');
-	}
-	next();
-});
+// app.use((req, res, next) => {
+// 	if (req.method === 'GET') {
+// 		res.send('GET requests disabled');
+// 	}
+// 	next();
+// });
 
-app.use((req, res, next) => {
-	res.status(503).send('site under maintenance');
-	next();
-});
+// app.use((req, res, next) => {
+// 	res.status(503).send('site under maintenance');
+// 	next();
+// });
 
 app.use(express.json());
 app.use(userRouter);
