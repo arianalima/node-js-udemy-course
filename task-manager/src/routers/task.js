@@ -17,21 +17,22 @@ router.post('/tasks', auth, async (req, res) => {
 });
 
 router.get('/tasks', auth, async (req, res) => {
-	const taskQuery = { owner: req.user._id }
+	const match = {}
+
 	if (req.query.completed) {
-		try {
-			taskQuery.completed = JSON.parse(req.query.completed);
-		} catch (error) {
-			if (error.name === 'SyntaxError') {
-				return res.status(400).send();
-			}
-		}
+		match.completed = req.query.completed === 'true';
 	}
 
 	try {
-		await Task.find(taskQuery).then((tasks) => {
-			res.send(tasks);
-		});
+		await req.user.populate({
+			path: 'tasks',
+			match,
+			options: {
+				limit: parseInt(req.query.limit),
+				skip: parseInt(req.query.skip)
+			}
+		})
+		res.send(req.user.tasks);
 	} catch (error) {
 		res.status(500).send(error);
 	}
