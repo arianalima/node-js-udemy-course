@@ -18,11 +18,16 @@ router.post('/tasks', auth, async (req, res) => {
 
 router.get('/tasks', auth, async (req, res) => {
 	const taskQuery = { owner: req.user._id }
-
 	if (req.query.completed) {
-		taskQuery.completed = req.query.completed === ('true' || 'false')
+		try {
+			taskQuery.completed = JSON.parse(req.query.completed);
+		} catch (error) {
+			if (error.name === 'SyntaxError') {
+				return res.status(400).send();
+			}
+		}
 	}
-	
+
 	try {
 		await Task.find(taskQuery).then((tasks) => {
 			res.send(tasks);
