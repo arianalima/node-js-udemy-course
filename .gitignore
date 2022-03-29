@@ -70,7 +70,7 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-./task-manager/config/dev.env
+task-manager/config/*.env
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
