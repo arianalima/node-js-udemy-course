@@ -1,26 +1,9 @@
 const request = require("supertest");
-const jwt = require("jsonwebtoken");
-const mongoose = require("mongoose");
 const app = require("../src/app");
 const User = require("../src/models/user");
+const { userOneId, userOne, setupDatabase } = require("./fixtures/db");
 
-const userOneId = new mongoose.Types.ObjectId();
-const userOne = {
-  _id: userOneId,
-  name: "Mike",
-  email: "mike@email.com",
-  password: "abc1234",
-  tokens: [
-    {
-      token: jwt.sign({ _id: userOneId }, process.env.JWT_SECRET),
-    },
-  ],
-};
-
-beforeEach(async () => {
-  await User.deleteMany();
-  await User(userOne).save();
-});
+beforeEach(setupDatabase);
 
 test("Should signup a new user", async () => {
   const response = await request(app)
@@ -112,9 +95,9 @@ test("Should update valid user fields", async () => {
 });
 
 test("Should not update invalid user fields", async () => {
-    await request(app)
-      .patch("/users/me")
-      .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
-      .send({ invalidField: "dummy" })
-      .expect(400);
-  });
+  await request(app)
+    .patch("/users/me")
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .send({ invalidField: "dummy" })
+    .expect(400);
+});
